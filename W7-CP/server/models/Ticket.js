@@ -17,7 +17,6 @@ TicketSchema.virtual('profile', {
     foreignField: '_id',
     ref: 'Account',
     justOne: true
-    // May need to create another one that return an array
 })
 
 TicketSchema.virtual('event', {
