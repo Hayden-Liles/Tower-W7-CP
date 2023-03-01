@@ -1,0 +1,16 @@
+
+  {
+    "name": "w7-cp",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "npm run setup:server",
+      "setup:app": "npm run setup:server && npm run setup:client",
+      "setup:client": "cd W7-CP.client && npm i",
+      "setup:server": "cd W7-CP && npm i",
+      "start": "node W7-CP/index.js"
+    },
+    "engines": {
+      "node": "^18.12.1"
+    }
+  }
+  
