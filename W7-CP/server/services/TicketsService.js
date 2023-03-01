@@ -5,8 +5,9 @@ import { BadRequest, UnAuthorized, Unexpected } from "../utils/Errors"
 
 class TicketsService {
     async createTicket(ticketData) {
-        const event = await eventsService.getEventById(ticketData.eventId)
+        const event = await (await eventsService.getEventById(ticketData.eventId))
         await eventsService.checkCapacity(event)
+
         const ticket = await dbContext.Tickets.create(ticketData)
         await ticket.populate('profile')
         return ticket
