@@ -1,11 +1,20 @@
 <template>
-    <div :style="{ backgroundImage: 'url(' + curEvent.coverImg + ')' }" class="event-img img-fluid d-flex align-items-end my-2">
-        <div class="event-info w-100 text-light p-1">
-            <p class="fs-4 fw-semibold">Event Title</p>
-            <p class="event-info-text fs-5">Social event center<br>10th of March</p>
-            <div class="d-flex text-end fs-5 justify-content-end">
-                <p class="event-info-text">100</p>
-                <p class="ps-1">spots</p>
+    <!-- TODO ADD @select -->
+    <div :style="{ backgroundImage: 'url(' + curEvent.coverImg + ')' }" class="event-img img-fluid d-flex align-items-end mt-4" id="event-card">
+        <div class="event-info w-100 text-light">
+            <div class="ps-1">
+                <p class="fs-4 fw-semibold text-capitalize">{{ curEvent.name }}</p>
+                <p class="event-info-text fs-5 text-capitalize">{{ curEvent.type }}<br>{{ curEvent.startDate }}</p>
+            </div>
+            <div class="d-flex text-end fs-5 justify-content-end pe-2" v-if="!curEvent.isCanceled && curEvent.capacity != 0">
+                <p class="event-info-text">{{ curEvent.capacity }}</p>
+                <p class="ps-1">spots left</p>
+            </div>
+            <div v-else-if="curEvent.isCanceled" class="bg-danger w-100 p-0 m-0 text-center">
+                <p class="fw-bold">Cancelled</p>
+            </div>
+            <div v-else-if="curEvent.capacity <= 0" class="bg-danger w-100 p-0 m-0 text-center">
+                <p class="fw-bold">At Capacity</p>
             </div>
         </div>
     </div>
@@ -30,14 +39,22 @@ p {
     margin: 0;
 }
 
+#event-card{
+    height: 300px;
+}
+
+#event-card:hover{
+    opacity: .7;
+    cursor: pointer;
+}
+
 .event-img {
-    background-size: contain;
-    background-repeat: none;
+    background-size: cover;
     background-position: center;
-    height: 250px;
     width: 100%;
     border: 3px solid #474C61;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.65);
+
 }
 
 .event-info {

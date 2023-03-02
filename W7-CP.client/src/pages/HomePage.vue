@@ -1,10 +1,10 @@
 <template>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-11 m-auto">
       <!-- SECTION Event Cards -->
       <div class="row" v-if="events">
-        <div class="col-3" v-for="event in events">
+        <div class="col-md-3" v-for="event in events">
           <EventCard :curEvent="event"/>
         </div>
       </div>
