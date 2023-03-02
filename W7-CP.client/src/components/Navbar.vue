@@ -8,7 +8,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div v-if="account.id">
-      <router-link :to="{ name: 'Home' }" class="btn text-info selectable text-uppercase">
+      <router-link :to="{ name: 'CreateEvent' }" class="btn text-info selectable text-uppercase">
         new event
       </router-link>
     </div>
