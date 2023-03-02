@@ -3,8 +3,10 @@
   <div class="row">
     <div class="col-12">
       <!-- SECTION Event Cards -->
-      <div class="row">
-        
+      <div class="row" v-if="events">
+        <div class="col-3" v-for="event in events">
+          <EventCard :curEvent="event"/>
+        </div>
       </div>
     </div>
   </div>
@@ -12,10 +14,12 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { eventsService } from '../services/EventsService'
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
+import EventCard from '../components/EventCard.vue'
+import { AppState } from '../AppState';
 
 export default {
   setup() {
@@ -34,9 +38,11 @@ export default {
     })
     
     return {
-      
+      events: computed(() => AppState.events)
     }
-  }
+  },
+  components: { EventCard }
+
 }
 </script>
 

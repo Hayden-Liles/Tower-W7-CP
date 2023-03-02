@@ -1,3 +1,5 @@
+import { AppState } from "../AppState"
+import { Event } from "../models/Event"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
 
@@ -5,7 +7,7 @@ import { api } from "./AxiosService"
 class EventsService{
     async getAllEvents(){
         const events = await api.get('/api/events')
-        logger.log(events.data)
+        AppState.events = events.data.map(e => new Event(e))
     }
 }
 

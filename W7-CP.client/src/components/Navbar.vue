@@ -1,9 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <i class="mdi mdi-chess-rook fs-1">Tower</i>
-      </div>
+        <i class="mdi mdi-chess-rook fs-2 text-light">Tower</i>
     </router-link>
     <button
       class="navbar-toggler"
@@ -16,11 +14,14 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+    <router-link :to="{ name: 'Home' }" class="btn text-info selectable text-uppercase">
+            new event
+          </router-link>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+      <ul class="navbar-nav me-auto d-flex justify-content-center flex-grow-1">
+        <li class="me-2">
+          <router-link :to="{ name: 'Home' }" class="btn text-info selectable text-uppercase">
+            Home
           </router-link>
         </li>
       </ul>
@@ -49,8 +50,12 @@ a:hover {
   text-transform: uppercase;
 }
 
+nav{
+  background: linear-gradient(0deg, #474C61 0%, rgba(71, 76, 97, 0) 100%);
+}
+
 .navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
+  border-bottom: 2px solid var(--bs-info);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
