@@ -3,7 +3,6 @@ import { Schema } from "mongoose";
 
 export const EventSchema = new Schema(
     {
-        confirmer: {type: String, default: 'Event'},
         name: {type: String, required: true, maxLength: 50, minLength: 3},
         description: {type: String, required: true, maxLength: 900, minLength: 3},
         coverImg: {type: String, required: true, maxLength: 900, minLength: 3},

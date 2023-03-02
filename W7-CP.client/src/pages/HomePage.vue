@@ -1,11 +1,41 @@
 <template>
-
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <!-- SECTION Event Cards -->
+      <div class="row">
+        
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import { eventsService } from '../services/EventsService'
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
+
 export default {
   setup() {
-    return {}
+
+    async function getAllEvents(){
+      try {
+        await eventsService.getAllEvents()
+      } catch (error) {
+        Pop.error(error)
+        logger.error(error)
+      }
+    }
+
+    onMounted(() => {
+      getAllEvents()
+    })
+    
+    return {
+      
+    }
   }
 }
 </script>
