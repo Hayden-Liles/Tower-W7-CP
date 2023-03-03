@@ -19,9 +19,11 @@ class EventsService{
 
     async getCurEvent(eventId){
         let curEvent = await api.get(`/api/events/${eventId}`)
+        let curEventTickets = await api.get(`/api/events/${eventId}/tickets`)
         let Comments = await api.get(`/api/events/${eventId}/comments`)
         curEvent = new Event(curEvent.data)
         curEvent.comments = Comments.data
+        curEvent.tickets = curEventTickets.data
         AppState.curEvent = curEvent
     }
 

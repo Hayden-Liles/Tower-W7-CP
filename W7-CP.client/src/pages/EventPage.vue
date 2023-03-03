@@ -2,7 +2,7 @@
     <div class="container" v-if="curEvent">
         <!-- SECTION The event -->
         <div class="row">
-            <div class="col-12 event-img img-fluid d-flex align-items-end mt-4 p-0"
+            <div class="col-12 event-img img-fluid d-flex align-items-end my-4 p-0"
                 :style="{ backgroundImage: 'url(' + curEvent.coverImg + ')' }" id="event-card">
                 <div class="row event-info m-0 w-100 text-light">
                     <div class="col-5 d-flex align-items-center justify-content-center">
@@ -20,9 +20,11 @@
                                     </p>
                                 </li>
                                 <li @click="cancelEvent()">
-                                    <p v-if="!curEvent.isCanceled" class="ps-3 py-2 selectable text-danger"><i class="mdi mdi-cancel pe-1"></i>cancel
+                                    <p v-if="!curEvent.isCanceled" class="ps-3 py-2 selectable text-danger"><i
+                                            class="mdi mdi-cancel pe-1"></i>cancel
                                         event</p>
-                                    <p v-else class="ps-3 py-2 selectable text-danger"><i class="mdi mdi-check-circle pe-1"></i>Uncancel event</p>
+                                    <p v-else class="ps-3 py-2 selectable text-danger"><i
+                                            class="mdi mdi-check-circle pe-1"></i>Uncancel event</p>
                                 </li>
                             </ul>
                         </div>
@@ -36,7 +38,8 @@
                             </div>
                             <p class="mt-4" id="desc-text">{{ curEvent.description }}</p>
                         </div>
-                        <div class="text-end h10 d-flex justify-content-between" v-if="!curEvent.isCanceled && curEvent.capacity > 0">
+                        <div class="text-end h10 d-flex justify-content-between"
+                            v-if="!curEvent.isCanceled && curEvent.capacity > 0">
                             <div class="d-flex align-items-center fs-4 text-info">
                                 <p><b>{{ curEvent.capacity }}</b></p>
                                 <p class="ps-2 fs-3">Spots Left</p>
@@ -44,13 +47,22 @@
                             <button class="btn btn-lg bg-warning fs-4"><i class="mdi mdi-account-group-outline"></i>
                                 Attend</button>
                         </div>
-                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center" v-else-if="curEvent.isCanceled">
+                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center"
+                            v-else-if="curEvent.isCanceled">
                             <p class="fs-3 text-center"><b>Canceled</b></p>
                         </div>
-                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center" v-else-if="curEvent.capacity <= 0">
+                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center"
+                            v-else-if="curEvent.capacity <= 0">
                             <p class="fs-3 text-center"><b>At Capacity</b></p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex bg-dark-lighten" v-for="attendee in curEvent.tickets">
+                    <img :src="attendee.profile.picture" id="attendee-picture" class="p-1" :title="attendee.profile.name">
                 </div>
             </div>
         </div>
@@ -129,7 +141,7 @@ export default {
                     logger.error(error)
                     Pop.error(error)
                 }
-                
+
             },
 
             async editEvent(theEvent) {
@@ -202,6 +214,11 @@ p {
 #creator-img {
     height: 100px;
     widows: 100px;
+}
+
+#attendee-picture{
+    height: 40px;
+    width: 40px;
 }
 
 .event-img {
