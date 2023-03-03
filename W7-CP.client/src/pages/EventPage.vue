@@ -34,7 +34,7 @@
                                     <p class="fs-3">{{ curEvent.name }}</p>
                                     <p class="fs-5 text-info text-capitalize">{{ curEvent.type }}</p>
                                 </div>
-                                <p class="fs-5 text-info">{{ curEvent.startDate }}</p>
+                                <p class="fs-5 text-info text-end">{{ curEvent.startDate }}<br>{{ curEvent.location }}</p>
                             </div>
                             <p class="mt-4" id="desc-text">{{ curEvent.description }}</p>
                         </div>
@@ -184,6 +184,7 @@ export default {
                     }
                     await eventsService.cancelEvent(eventId)
                     Pop.toast("event status changed", "warning")
+                    getCurEvent()
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)
@@ -195,6 +196,7 @@ export default {
                     const popConf = await Pop.confirm("Are you sure you would like to delete this comment?")
                     if (!popConf) {
                         Pop.toast('Comment Deletion Averted', "info")
+                        return
                     }
                     await commentsService.deleteComment(commentId)
                     Pop.toast("Comment Deleted", "warning")

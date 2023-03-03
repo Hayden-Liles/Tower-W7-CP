@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="ps-2">
-                    <p class="fs-2 text-success">Upcoming Events</p>
+                    <p class="fs-2 text-success" v-if="tickets.length > 0">Upcoming Events</p>
+                    <p class="fs-2 text-danger" v-else>No Upcoming Events</p>
                 </div>
             </div>
             <div class="col-12 mt-3 mb-5" v-for="ticket in tickets">
@@ -18,7 +19,7 @@
                             <div class="bg-dark-lighten px-4" id="ticket-body">
                                 <div class="h-75">
                                     <p class="fs-2 pt-3">{{ ticket.event.name }}</p>
-                                    <p class="fs-4 text-info pt-3">{{ ticket.event.type }}<br>{{ ticket.event.startDate }}</p>
+                                    <p class="fs-4 text-info pt-3 text-capitalize">{{ ticket.event.type }}<br>{{ ticket.event.startDate }}</p>
                                 </div>
                                 <div class="h-25 d-flex justify-content-center align-items-center">
                                     <div>

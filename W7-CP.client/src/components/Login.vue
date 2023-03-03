@@ -20,11 +20,11 @@
                 View Profile
               </div>
             </router-link>
-            <router-link :to="{ name: 'Account' }">
+            <!-- <router-link :to="{ name: 'Account' }">
               <div class="list-group-item dropdown-item selectable bg-dark-lighten">
                 Manage Account
               </div>
-            </router-link>
+            </router-link> -->
             <div class="selectable list-group-item dropdown-item list-group-item-action text-danger bg-dark-lighten" @click="logout">
               <i class="mdi mdi-logout"></i>
               logout
