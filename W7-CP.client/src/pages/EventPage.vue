@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-7 py-5 h-100">
                         <div class="dropdown h10 text-end">
-                            <button class="btn btn-info py-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            <button class="btn btn-info py-0" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="mdi mdi-dots-horizontal fs-5"></i>
                             </button>
@@ -59,8 +59,10 @@
                 </div>
             </div>
         </div>
+        <!-- SECTION Attendee's -->
         <div class="row">
             <div class="col-12">
+                <p class="text-text pb-1">See who is attending </p>
                 <div class="d-flex bg-dark-lighten" v-for="attendee in curEvent.tickets">
                     <img :src="attendee.profile.picture" id="attendee-picture" class="p-1" :title="attendee.profile.name">
                 </div>
@@ -69,12 +71,13 @@
         <!-- SECTION The Comments -->
         <div class="row">
             <div class="col-9 m-auto mt-5 mb-5">
+                <p class="text-text pb-1">What are people saying</p>
                 <div class="bg-dark-lighten px-5 py-4">
                     <p class="text-end pb-2 text-success">Join the conversation</p>
                     <!-- STUB Comment Form -->
                     <form @submit.prevent="createComment()">
                         <textarea v-model="editable.body" id="comment" class="form-control"
-                            placeholder="Share your thoughts.."></textarea>
+                            placeholder="Share your thoughts.." minlength="10"></textarea>
                         <div class="text-end">
                             <button type="submit" class="btn btn-lg btn-success mt-3" style="border-radius: 0;">Post
                                 Comment</button>
@@ -88,7 +91,7 @@
                                 <div class="d-flex justify-content-between fs-3">
                                     <p class="fs-3 fw-semibold text-capitalize">{{ comment.creator.name }}</p>
                                     <!-- TODO Make this button work -->
-                                    <i class="mdi mdi-trash-can selectable" v-if="account.id == comment.creator.id"></i>
+                                    <i @click="deleteComment(comment.id)" class="mdi mdi-trash-can selectable" v-if="account.id == comment.creator.id"></i>
                                 </div>
                                 <p class="px-1">{{ comment.body }}</p>
                             </div>
@@ -109,6 +112,7 @@ import { router } from '../router';
 import { eventsService } from '../services/EventsService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
+import { commentsService } from '../services/CommentsService';
 
 export default {
     setup() {
@@ -134,9 +138,13 @@ export default {
             curEvent: computed(() => AppState.curEvent),
             account: computed(() => AppState.account),
 
-            createComment() {
+            async createComment() {
                 try {
                     logger.error("Not yet done CREATE COMMENT")
+                    const formData = editable.value
+                    formData.eventId = AppState.curEvent.id
+                    await commentsService.createComment(formData)
+                    editable.value = {}
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)
@@ -164,6 +172,20 @@ export default {
                     }
                     await eventsService.cancelEvent(eventId)
                     Pop.toast("event status changed", "warning")
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
+            },
+
+            async deleteComment(commentId){
+                try {
+                    const popConf = await Pop.confirm("Are you sure you would like to delete this comment?")
+                    if (!popConf) {
+                        Pop.toast('Comment Deletion Averted', "info")
+                    }
+                    await commentsService.deleteComment(commentId)
+                    Pop.toast("Comment Deleted", "warning")
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)
