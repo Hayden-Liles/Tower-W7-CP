@@ -15,6 +15,11 @@
         </div>
         <div class="dropdown-menu dropdown-menu-lg-left p-0" aria-labelledby="authDropdown">
           <div class="list-group bg-dark-lighten">
+            <router-link :to="{ name: 'Profile' }">
+              <div class="list-group-item dropdown-item selectable bg-dark-lighten">
+                View Profile
+              </div>
+            </router-link>
             <router-link :to="{ name: 'Account' }">
               <div class="list-group-item dropdown-item selectable bg-dark-lighten">
                 Manage Account
@@ -52,6 +57,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.list-group-item:last-child{
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.list-group, .dropdown-menu{
+  border-radius: 0;
+}
 .selectable:hover{
   opacity: .9;
 }
