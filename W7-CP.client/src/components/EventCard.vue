@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO ADD @select -->
     <router-link :to="{name: 'Event', params:{eventId: curEvent.id}}">
         <div :style="{ backgroundImage: 'url(' + curEvent.coverImg + ')' }"
             class="event-img img-fluid d-flex align-items-end mt-4" id="event-card">

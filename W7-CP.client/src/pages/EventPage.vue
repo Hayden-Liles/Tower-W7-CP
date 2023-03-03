@@ -103,7 +103,6 @@
                             <div class="bg-info rounded p-2 ms-3">
                                 <div class="d-flex justify-content-between fs-3">
                                     <p class="fs-3 fw-semibold text-capitalize">{{ comment.creator.name }}</p>
-                                    <!-- TODO Make this button work -->
                                     <i @click="deleteComment(comment.id)" class="mdi mdi-trash-can selectable" v-if="account.id == comment.creator.id"></i>
                                 </div>
                                 <p class="px-1">{{ comment.body }}</p>
