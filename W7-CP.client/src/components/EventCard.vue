@@ -58,13 +58,13 @@ p {
     background-position: center;
     width: 100%;
     border: 3px solid #474C61;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.65);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.382);
 }
 
 .event-info {
-    background: rgba(204, 243, 253, 0.2);
+    background: rgba(0, 0, 0, 0.52);
     border: 1px solid rgba(86, 199, 251, 0.2);
-    backdrop-filter: blur(7px);
+    backdrop-filter: blur(16px);
     /* Note: backdrop-filter has minimal browser support */
 
     border-radius: 3px;

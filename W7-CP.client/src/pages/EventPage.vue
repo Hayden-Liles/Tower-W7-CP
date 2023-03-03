@@ -90,7 +90,7 @@
                     <!-- STUB Comment Form -->
                     <form @submit.prevent="createComment()">
                         <textarea v-model="editable.body" id="comment" class="form-control"
-                            placeholder="Share your thoughts.." minlength="10"></textarea>
+                            placeholder="Share your thoughts.." minlength="10" required></textarea>
                         <div class="text-end">
                             <button type="submit" class="btn btn-lg btn-success mt-3" style="border-radius: 0;">Post
                                 Comment</button>
