@@ -73,7 +73,7 @@
             </div>
         </div>
         <!-- SECTION Attendee's -->
-        <div class="row">
+        <div class="row" v-if="curEvent.tickets.length > 0">
             <div class="col-12">
                 <p class="text-text pb-1">See who is attending </p>
                 <div class="d-flex bg-dark-lighten">
