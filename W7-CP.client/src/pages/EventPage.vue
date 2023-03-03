@@ -55,10 +55,19 @@
                             v-else-if="curEvent.isCanceled">
                             <p class="fs-3 text-center"><b>Canceled</b></p>
                         </div>
+                        <div class="text-end h10 d-flex justify-content-between bg-danger align-items-center"
+                            v-else-if="curEvent.capacity <= 0 && (curEvent.tickets.find(e => e.accountId == account.id))">
+                            <p class="fs-3 text-center"><b>At Capacity</b></p>
+                            <div>
+                                <button @click="dontAttendEvent()" class="btn btn-sm bg-danger fs-4"><i class="mdi mdi-account"></i>
+                                        Leave</button>
+                            </div>
+                        </div>
                         <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center"
                             v-else-if="curEvent.capacity <= 0">
                             <p class="fs-3 text-center"><b>At Capacity</b></p>
                         </div>
+                        
                     </div>
                 </div>
             </div>

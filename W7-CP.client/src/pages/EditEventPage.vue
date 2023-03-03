@@ -98,13 +98,14 @@ import Pop from '../utils/Pop';
 export default {
     setup() {
         const route = useRoute()
-        const editable = ref({...AppState.curEvent});
         let curPath = route.fullPath
+        const editable = ref({...AppState.curEvent});
         async function getCurEvent() {
             try {
                 curPath = route.fullPath
                 const eventId = route.params.eventId
                 await eventsService.getCurEvent(eventId)
+                editable.value = {...AppState.curEvent}
             } catch (error) {
                 logger.error(error)
                 Pop.error(error)
