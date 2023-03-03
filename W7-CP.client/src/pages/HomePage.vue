@@ -12,10 +12,13 @@
     </div>
     <div class="col-11 m-auto">
       <!-- SECTION Event Cards -->
-      <div class="row" v-if="events">
+      <div class="row" v-if="events && events.length > 0">
         <div class="col-md-3" v-for="event in events">
           <EventCard :curEvent="event"/>
         </div>
+      </div>
+      <div v-else>
+        <p class="fs-4 text-danger">No Events</p>
       </div>
     </div>
   </div>

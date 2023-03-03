@@ -9,7 +9,7 @@
                         <img :src="curEvent.coverImg" id="event-img" alt="" class="ps-2">
                     </div>
                     <div class="col-7 py-5 h-100">
-                        <div class="dropdown h10 text-end">
+                        <div class="dropdown h10 text-end" v-if="account.id == curEvent.creatorId">
                             <button class="btn btn-info py-0" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="mdi mdi-dots-horizontal fs-5"></i>
@@ -28,6 +28,9 @@
                                 </li>
                             </ul>
                         </div>
+                        <div v-else class="h-10">
+
+                        </div>
                         <div class="h80">
                             <div class="d-flex justify-content-between pe-2">
                                 <div class="fw-semibold">
@@ -44,7 +47,7 @@
                                 <p><b>{{ curEvent.capacity }}</b></p>
                                 <p class="ps-2 fs-3">Spots Left</p>
                             </div>
-                            <div v-if="curEvent.tickets">
+                            <div v-if="curEvent.tickets && account.id">
                                 <button v-if="!curEvent.tickets.find(e => e.accountId == account.id)" @click="attendEvent()" class="btn btn-lg bg-warning fs-4"><i class="mdi mdi-account-group-outline"></i>
                                     Attend</button>
                                 <button v-else @click="dontAttendEvent()" class="btn btn-lg bg-danger fs-4"><i class="mdi mdi-account"></i>
@@ -86,9 +89,9 @@
             <div class="col-9 m-auto mt-5 mb-5">
                 <p class="text-text pb-1">What are people saying</p>
                 <div class="bg-dark-lighten px-5 py-4">
-                    <p class="text-end pb-2 text-success">Join the conversation</p>
                     <!-- STUB Comment Form -->
-                    <form @submit.prevent="createComment()">
+                    <form @submit.prevent="createComment()" v-if="account.id">
+                        <p class="text-end pb-2 text-success">Join the conversation</p>
                         <textarea v-model="editable.body" id="comment" class="form-control"
                             placeholder="Share your thoughts.." minlength="10" required></textarea>
                         <div class="text-end">
@@ -97,6 +100,9 @@
                         </div>
                     </form>
                     <!-- STUB Where the comments go -->
+                    <div v-if="curEvent.comments.length == 0">
+                        <p class="fs-3 text-danger">No Comments</p>
+                    </div>
                     <div v-for="comment in curEvent.comments">
                         <div class="d-flex mt-3 align-items-center">
                             <img :src="comment.creator.picture" class="rounded-circle" id="creator-img">
@@ -180,7 +186,8 @@ export default {
                     const eventId = route.params.eventId
                     const popConf = await Pop.confirm("Are you sure you would like to cancel this event?")
                     if (!popConf) {
-                        Pop.toast('Event Cancel Averted', "info")
+                        Pop.toast('Event status change averted', "info")
+                        return
                     }
                     await eventsService.cancelEvent(eventId)
                     Pop.toast("event status changed", "warning")
