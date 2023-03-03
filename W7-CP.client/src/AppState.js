@@ -8,5 +8,8 @@ export const AppState = reactive({
   account: {},
   
   /** @type {import('./models/Event').Event[]} */
-  events: []
+  events: [],
+
+  /** @type {import('./models/Event').Event | null} */
+  curEvent: null
 })

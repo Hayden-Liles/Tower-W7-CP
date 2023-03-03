@@ -1,7 +1,7 @@
 <template>
-    <div class="row">
-        <div class="col-7">
-            <form class="w-75 m-auto" @submit="createEvent()">
+    <div class="row mt-5">
+        <div class="col-7" v-if="curEvent">
+            <form class="w-75 m-auto" @submit="editEvent()">
                 <div class="form-group row pt-3 align-items-center ps-4">
                     <label for="name" class="col-sm-2 col-form-label text-success fw-semibold text-sm-end">Name</label>
                     <div class="col-sm-9">
@@ -63,57 +63,72 @@
         </div>
         <div class="col-3">
             <div :style="{ backgroundImage: 'url(' + editable.coverImg + ')' }"
-            class="event-img img-fluid d-flex align-items-end mt-4" id="event-card">
-            <div class="event-info w-100 text-light">
-                <div class="ps-1">
-                    <p class="fs-4 fw-semibold text-capitalize">{{ editable.name }}</p>
-                    <p class="event-info-text fs-5 text-capitalize">{{ editable.type }}<br>{{ editable.startDate }}</p>
-                </div>
-                <div class="d-flex text-end fs-5 justify-content-end pe-2"
-                    v-if="!editable.isCanceled && editable.capacity != 0">
-                    <p class="event-info-text">{{ editable.capacity }}</p>
-                    <p class="ps-1">spots left</p>
-                </div>
-                <div v-else-if="editable.isCanceled" class="bg-danger w-100 p-0 m-0 text-center">
-                    <p class="fw-bold">Cancelled</p>
-                </div>
-                <div v-else-if="editable.capacity <= 0" class="bg-danger w-100 p-0 m-0 text-center">
-                    <p class="fw-bold">At Capacity</p>
+                class="event-img img-fluid d-flex align-items-end mt-4" id="event-card">
+                <div class="event-info w-100 text-light">
+                    <div class="ps-1">
+                        <p class="fs-4 fw-semibold text-capitalize">{{ editable.name }}</p>
+                        <p class="event-info-text fs-5 text-capitalize">{{ editable.type }}<br>{{ editable.startDate }}</p>
+                    </div>
+                    <div class="d-flex text-end fs-5 justify-content-end pe-2"
+                        v-if="!editable.isCanceled && editable.capacity != 0">
+                        <p class="event-info-text">{{ editable.capacity }}</p>
+                        <p class="ps-1">spots left</p>
+                    </div>
+                    <div v-else-if="editable.isCanceled" class="bg-danger w-100 p-0 m-0 text-center">
+                        <p class="fw-bold">Cancelled</p>
+                    </div>
+                    <div v-else-if="editable.capacity <= 0" class="bg-danger w-100 p-0 m-0 text-center">
+                        <p class="fw-bold">At Capacity</p>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </template>
 
 
 <script>
-import { ref, watchEffect, onMounted } from 'vue';
+import { ref, watchEffect, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { AppState } from '../AppState';
 import { router } from '../router';
 import { eventsService } from '../services/EventsService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
-import EventCard from './EventCard.vue';
 export default {
     setup() {
-        const editable = ref({ type: undefined });
+        const route = useRoute()
+        const editable = ref({...AppState.curEvent, startDate: ''});
+        async function getCurEvent() {
+            try {
+                const eventId = route.params.eventId
+                await eventsService.getCurEvent(eventId)
+            } catch (error) {
+                logger.error(error)
+                Pop.error(error)
+            }
+        }
         watchEffect(() => {
-            if (editable.value.type != undefined) {
+            if (editable.type != undefined) {
                 typeForm.style = "";
             }
         });
+        onMounted(()=>{
+            getCurEvent()
+        })
         return {
+            curEvent: computed(()=> AppState.curEvent),
             editable,
-            async createEvent() {
+            async editEvent() {
                 try {
                     if (editable.value.type == undefined) {
                         typeForm.style = "border-color: red; background-color: #ffc6c6;";
                         return;
                     }
                     const formData = editable.value
-                    await eventsService.createEvent(formData)
+                    // await eventsService.createEvent(formData)
                     editable.value = {}
-                    router.push({ name: 'Home'})
+                    router.push({ name: 'Home' })
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)
@@ -121,8 +136,7 @@ export default {
 
             }
         };
-    },
-    components: { EventCard }
+    }
 }
 </script>
 

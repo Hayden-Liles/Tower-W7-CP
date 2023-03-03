@@ -12,15 +12,27 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/create_event',
-    name: 'CreateEvent',
-    component: loadPage('CreateEventPage')
-  },
-  {
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
+  },
+  // SECTION EVENT PAGES
+  {
+    path: '/events/:eventId',
+    name: 'Event',
+    component: loadPage('EventPage'),
+  },
+  {
+    path: '/create_event',
+    name: 'CreateEvent',
+    component: loadPage('CreateEventPage'),
+    beforeEnter: authGuard
+  },
+  {
+    path: '/events/:eventId/Edit',
+    name: 'EditEvent',
+    component: loadPage('EditEventPage'),
   }
 ]
 
