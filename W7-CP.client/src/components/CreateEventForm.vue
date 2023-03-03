@@ -89,6 +89,8 @@
 
 <script>
 import { ref, watchEffect, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { AppState } from '../AppState';
 import { router } from '../router';
 import { eventsService } from '../services/EventsService';
 import { logger } from '../utils/Logger';
@@ -97,9 +99,14 @@ import EventCard from './EventCard.vue';
 export default {
     setup() {
         const editable = ref({ type: undefined });
+        const route = useRoute()
+        let curPath = route.fullPath
         watchEffect(() => {
             if (editable.value.type != undefined) {
                 typeForm.style = "";
+            }
+            if(route.fullPath != curPath){
+                eventsService.getCurEvent()
             }
         });
         return {
@@ -113,7 +120,8 @@ export default {
                     const formData = editable.value
                     await eventsService.createEvent(formData)
                     editable.value = {}
-                    router.push({ name: 'Home'})
+                    router.push({ name: 'Event', params: {eventId: AppState.curEvent.id}})
+                    eventsService.getCurEvent(AppState.curEvent.id)
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)

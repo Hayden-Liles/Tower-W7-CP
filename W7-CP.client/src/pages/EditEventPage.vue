@@ -1,7 +1,7 @@
 <template>
     <div class="row mt-5">
         <div class="col-7" v-if="curEvent">
-            <form class="w-75 m-auto" @submit="editEvent()">
+            <form class="w-75 m-auto" @submit.prevent="editEvent()">
                 <div class="form-group row pt-3 align-items-center ps-4">
                     <label for="name" class="col-sm-2 col-form-label text-success fw-semibold text-sm-end">Name</label>
                     <div class="col-sm-9">
@@ -56,7 +56,7 @@
                         <input required v-model="editable.startDate" type="date" class="form-control" id="startDate">
                     </div>
                     <div class="text-end mt-5">
-                        <button type="submit" class="btn btn-primary w-25 fw-bold bg-success" id="formBtn">Submit</button>
+                        <button type="submit" class="btn btn-primary w-25 fw-bold bg-success" id="formBtn">Save</button>
                     </div>
                 </div>
             </form>
@@ -88,7 +88,7 @@
 
 
 <script>
-import { ref, watchEffect, computed, onMounted } from 'vue';
+import { ref, watchEffect, computed, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState';
 import { router } from '../router';
@@ -98,9 +98,11 @@ import Pop from '../utils/Pop';
 export default {
     setup() {
         const route = useRoute()
-        const editable = ref({...AppState.curEvent, startDate: ''});
+        const editable = ref({...AppState.curEvent});
+        let curPath = route.fullPath
         async function getCurEvent() {
             try {
+                curPath = route.fullPath
                 const eventId = route.params.eventId
                 await eventsService.getCurEvent(eventId)
             } catch (error) {
@@ -108,14 +110,20 @@ export default {
                 Pop.error(error)
             }
         }
+        onMounted(()=>{
+            getCurEvent()      
+        })
+        onUnmounted(() => {
+            AppState.curEvent = null
+        })
         watchEffect(() => {
             if (editable.type != undefined) {
                 typeForm.style = "";
             }
+            if(route.fullPath != curPath){
+                getCurEvent()
+            }
         });
-        onMounted(()=>{
-            getCurEvent()
-        })
         return {
             curEvent: computed(()=> AppState.curEvent),
             editable,
@@ -125,10 +133,10 @@ export default {
                         typeForm.style = "border-color: red; background-color: #ffc6c6;";
                         return;
                     }
+                    const eventId = route.params.eventId
                     const formData = editable.value
-                    // await eventsService.createEvent(formData)
-                    editable.value = {}
-                    router.push({ name: 'Home' })
+                    await eventsService.editEvent(formData, eventId)
+                    router.push({ name: 'Event', params: { eventId: eventId } })
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)

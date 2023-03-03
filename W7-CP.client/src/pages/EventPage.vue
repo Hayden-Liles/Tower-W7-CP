@@ -10,15 +10,22 @@
                     </div>
                     <div class="col-7 py-5 h-100">
                         <div class="dropdown h10 text-end">
-                        <button class="btn btn-info py-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="mdi mdi-dots-horizontal fs-5"></i>
-                        </button>
-                        <ul class="dropdown-menu bg-dark-lighten">
-                            <li @click="editEvent(curEvent)"><p class="ps-3 py-2 selectable text-info"><i class="mdi mdi-pencil pe-1"></i>edit event</p></li>
-                            <li><p class="ps-3 py-2 selectable text-danger"><i class="mdi mdi-trash-can pe-1"></i>delete event</p></li>
-                        </ul>
-                    </div>
+                            <button class="btn btn-info py-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="mdi mdi-dots-horizontal fs-5"></i>
+                            </button>
+                            <ul class="dropdown-menu bg-dark-lighten">
+                                <li @click="editEvent(curEvent)">
+                                    <p class="ps-3 py-2 selectable text-info"><i class="mdi mdi-pencil pe-1"></i>edit event
+                                    </p>
+                                </li>
+                                <li @click="cancelEvent()">
+                                    <p v-if="!curEvent.isCanceled" class="ps-3 py-2 selectable text-danger"><i class="mdi mdi-cancel pe-1"></i>cancel
+                                        event</p>
+                                    <p v-else class="ps-3 py-2 selectable text-danger"><i class="mdi mdi-check-circle pe-1"></i>Uncancel event</p>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="h80">
                             <div class="d-flex justify-content-between pe-2">
                                 <div class="fw-semibold">
@@ -29,13 +36,19 @@
                             </div>
                             <p class="mt-4" id="desc-text">{{ curEvent.description }}</p>
                         </div>
-                        <div class="text-end h10 d-flex justify-content-between">
+                        <div class="text-end h10 d-flex justify-content-between" v-if="!curEvent.isCanceled && curEvent.capacity > 0">
                             <div class="d-flex align-items-center fs-4 text-info">
                                 <p><b>{{ curEvent.capacity }}</b></p>
                                 <p class="ps-2 fs-3">Spots Left</p>
                             </div>
                             <button class="btn btn-lg bg-warning fs-4"><i class="mdi mdi-account-group-outline"></i>
                                 Attend</button>
+                        </div>
+                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center" v-else-if="curEvent.isCanceled">
+                            <p class="fs-3 text-center"><b>Canceled</b></p>
+                        </div>
+                        <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center" v-else-if="curEvent.capacity <= 0">
+                            <p class="fs-3 text-center"><b>At Capacity</b></p>
                         </div>
                     </div>
                 </div>
@@ -110,12 +123,39 @@ export default {
             account: computed(() => AppState.account),
 
             createComment() {
-                logger.error("Not yet done CREATE COMMENT")
+                try {
+                    logger.error("Not yet done CREATE COMMENT")
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
+                
             },
 
-            async editEvent(theEvent){
-                AppState.curEvent = theEvent
-                router.push({name:'EditEvent', params: {eventId: theEvent.id}})
+            async editEvent(theEvent) {
+                try {
+                    AppState.curEvent = theEvent
+                    router.push({ name: 'EditEvent', params: { eventId: theEvent.id } })
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
+
+            },
+
+            async cancelEvent() {
+                try {
+                    const eventId = route.params.eventId
+                    const popConf = await Pop.confirm("Are you sure you would like to cancel this event?")
+                    if (!popConf) {
+                        Pop.toast('Event Cancel Averted', "info")
+                    }
+                    await eventsService.cancelEvent(eventId)
+                    Pop.toast("event status changed", "warning")
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
             }
         }
     }
@@ -182,4 +222,5 @@ p {
 
 .event-info-text {
     color: #CCF3FD;
-}</style>
+}
+</style>

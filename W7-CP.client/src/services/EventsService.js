@@ -24,6 +24,22 @@ class EventsService{
         curEvent.comments = Comments.data
         AppState.curEvent = curEvent
     }
+
+    async editEvent(formData, eventId){
+        let curEvent = await api.put(`/api/events/${eventId}`, formData)
+        let Comments = await api.get(`/api/events/${eventId}/comments`)
+        curEvent = new Event(curEvent.data)
+        curEvent.comments = Comments.data
+        AppState.curEvent = curEvent
+    }
+
+    async cancelEvent(eventId){
+        let curEvent = await api.delete(`/api/events/${eventId}`)
+        let Comments = await api.get(`/api/events/${eventId}/comments`)
+        curEvent = new Event(curEvent.data)
+        curEvent.comments = Comments.data
+        AppState.curEvent = curEvent
+    }
 }
 
 export const eventsService = new EventsService()

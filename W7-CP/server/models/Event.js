@@ -11,7 +11,7 @@ export const EventSchema = new Schema(
         type: {type: String, required: true, maxLength: 900, minLength: 3,
             enum: ['concert', 'convention', 'sport', 'digital',]},
         isCanceled: {type: Boolean, default: false},
-        startDate: {type: String, required: true, maxLength: 100, minLength: 3},
+        startDate: {type: Date, required: true, maxLength: 100, minLength: 3},
 
         creatorId: {type: Schema.Types.ObjectId, required: true, ref: 'Account'}
     },
