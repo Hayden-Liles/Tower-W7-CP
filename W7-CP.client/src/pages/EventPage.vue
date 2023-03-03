@@ -39,13 +39,17 @@
                             <p class="mt-4" id="desc-text">{{ curEvent.description }}</p>
                         </div>
                         <div class="text-end h10 d-flex justify-content-between"
-                            v-if="!curEvent.isCanceled && curEvent.capacity > 0">
+                            v-if="!curEvent.isCanceled && curEvent.capacity> 0">
                             <div class="d-flex align-items-center fs-4 text-info">
                                 <p><b>{{ curEvent.capacity }}</b></p>
                                 <p class="ps-2 fs-3">Spots Left</p>
                             </div>
-                            <button class="btn btn-lg bg-warning fs-4"><i class="mdi mdi-account-group-outline"></i>
-                                Attend</button>
+                            <div v-if="curEvent.tickets">
+                                <button v-if="!curEvent.tickets.find(e => e.accountId == account.id)" @click="attendEvent()" class="btn btn-lg bg-warning fs-4"><i class="mdi mdi-account-group-outline"></i>
+                                    Attend</button>
+                                <button v-else @click="dontAttendEvent()" class="btn btn-lg bg-danger fs-4"><i class="mdi mdi-account"></i>
+                                    Leave</button>
+                            </div>
                         </div>
                         <div class="text-end h10 d-flex justify-content-center bg-danger align-items-center"
                             v-else-if="curEvent.isCanceled">
@@ -63,8 +67,8 @@
         <div class="row">
             <div class="col-12">
                 <p class="text-text pb-1">See who is attending </p>
-                <div class="d-flex bg-dark-lighten" v-for="attendee in curEvent.tickets">
-                    <img :src="attendee.profile.picture" id="attendee-picture" class="p-1" :title="attendee.profile.name">
+                <div class="d-flex bg-dark-lighten">
+                    <img v-for="attendee in curEvent.tickets" :src="attendee.profile.picture" id="attendee-picture" class="p-1" :title="attendee.profile.name">
                 </div>
             </div>
         </div>
@@ -186,6 +190,24 @@ export default {
                     }
                     await commentsService.deleteComment(commentId)
                     Pop.toast("Comment Deleted", "warning")
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
+            },
+
+            async attendEvent(){
+                try {
+                    await eventsService.attendEvent()
+                } catch (error) {
+                    logger.error(error)
+                    Pop.error(error)
+                }
+            },
+
+            async dontAttendEvent(){
+                try {
+                    await eventsService.dontAttendEvent()
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error)

@@ -42,6 +42,21 @@ class EventsService{
         curEvent.comments = Comments.data
         AppState.curEvent = curEvent
     }
+
+    async attendEvent(){
+        const eventId = {eventId: AppState.curEvent.id}
+        const attendee = await api.post('/api/tickets', eventId)
+        AppState.curEvent.tickets.push(attendee.data)
+        AppState.curEvent.capacity -= 1
+    }
+
+    async dontAttendEvent(){
+        const ticketIndex = AppState.curEvent.tickets.findIndex(e => e.accountId == AppState.account.id)
+        const ticketId = AppState.curEvent.tickets[ticketIndex].id
+        await api.delete(`/api/tickets/${ticketId}`)
+        AppState.curEvent.tickets.splice(ticketIndex, 1)
+        AppState.curEvent.capacity += 1
+    }
 }
 
 export const eventsService = new EventsService()
