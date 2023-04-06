@@ -17,7 +17,7 @@
 <div align="center">
    <a href="https://github.com/Hayden-Liles">
    <!-- THE IMAGE FOR THE PROJECT IF NOT ONE COMMENT ME OUT -->
-     <img src="TheFinal.client/src/assets/img/Logo.svg" alt="Logo" width="80" height="80">
+     <img src="W7-CP.client/src/assets/img/Logo.svg" alt="Logo" width="80" height="80">
    </a>
    
    
@@ -26,26 +26,28 @@
 
   <!-- A BRIEF DESCRIPTION OF THE PROJECT -->
   <p align="center">
-    <b>Keepr a better social network</b>
+    <b>Tower a place to know where to be</b>
   </p>
 </div>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Keepr is a social network that allows users to visually share and discover new interests by posting images or videos to their own, or others', collections (i.e., a collection of 'vaults,' usually with a common theme) and browsing what other users have kept.
+Did you know that a gathering of giraffes is called a tower!? The newest app from Tower is an application designed to help people get together with their towers of users for events. Whether they are concerts, expos, or sporting events, Tower will be there to get people together.
 
 <!-- Goal of the Project -->
 ## Goals
 
-In this final checkpoint, students will demonstrate a working knowledge of building full-stack applications. They will utilize a VueJs frontend with Vue-Router to manage the DOM. On the server-side, students will use the DotNet WebApi for their server and implement the Repository pattern to communicate with their database. In addition, students will use Auth0 for user management, Dapper as an ORM, and a MySQL server for their database.
+In this checkpoint, students will demonstrate their ability to build full-stack applications independently. For the client, students will implement VueJs with Vue-Router. On the server-side, students will use Express with Node.js and MongoDB with Mongoose to manage their databases and handle both one-to-many and many-to-many data relationships.In addition, students will implement identity management with Auth0.
 
 ### Built With
 
 * ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
-* ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+<!-- * ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white) -->
 * ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-* ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
+<!-- * ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white) -->
+* ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+* ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
