@@ -22,7 +22,7 @@
    
    
   <!-- THE TITLE OF THE PROJECT -->
-  <h3 align="center">Keepr</h3>
+  <h3 align="center">Tower</h3>
 
   <!-- A BRIEF DESCRIPTION OF THE PROJECT -->
   <p align="center">
