@@ -34,6 +34,10 @@
 ## About The Project
 
 Did you know that a gathering of giraffes is called a tower!? The newest app from Tower is an application designed to help people get together with their towers of users for events. Whether they are concerts, expos, or sporting events, Tower will be there to get people together.
+<ul>
+<li>Implemented Vue, Vue-Router to create a responsive, interactive front-end experience that is mobile friendly.</li>
+<li>Node.js and Express were used to create a strong backend capable of storing event and ticket data, providing features such as easy handling of HTTP requests, scalability, and user authentication.</li>
+</ul>
 
 <!-- Goal of the Project -->
 ## Goals
